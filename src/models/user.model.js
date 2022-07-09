@@ -28,11 +28,18 @@ const dataSchema = new mongoose.Schema({
     type: String,
   },
   role: {
-    required: true,
     type: String,
-    default: "1",
+    default: "user",
   },
-  unit: [
+  instansi: {
+    default: "",
+    type: String,
+  },
+  unit: {
+    default: "",
+    type: String,
+  },
+  units: [
     {
       guid: { required: true, type: String },
       name: { required: true, type: String },

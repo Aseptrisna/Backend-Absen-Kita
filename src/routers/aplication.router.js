@@ -8,7 +8,7 @@ router.post("/add", verifyToken, (req, res, next) => {
     .then((result) => res.json(result))
     .catch((err) => res.json(err));
 });
-router.post("/getbyguid", verifyToken, (req, res, next) => {
+router.post("/getbyguid", (req, res, next) => {
     Controller.getbyguid(req.body)
       .then((result) => res.json(result))
       .catch((err) => res.json(err));

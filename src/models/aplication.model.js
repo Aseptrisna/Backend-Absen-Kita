@@ -5,35 +5,35 @@ const dataSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  instansi: {
+    type: String,
+    default:""
+  },
   name: {
     type: String,
-    required: true,
-    unique: true,
-    lowercase: true,
+    default:""
   },
   package_name: {
     type: String,
-    required: true,
-    unique: true,
-    lowercase: true,
+    default:""
   },
   type: {
-    required: true,
     type: String,
+    default:""
   },
   client_id: {
-    required: true,
     type: String,
+    default:""
   },
   client_secret: {
-    required: true,
     type: String,
+    default:""
   },
   acces_token: {
-    required: true,
     type: String,
+    default:""
   },
   create_at: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model("application", dataSchema);
+module.exports = mongoose.model("unit", dataSchema);

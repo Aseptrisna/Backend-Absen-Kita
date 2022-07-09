@@ -42,14 +42,15 @@ exports.add = (data) =>
   });
 exports.getbyguid = (data) =>
   new Promise((resolve, reject) => {
-    Model.findOne({ guid: data.guid }).then((data) => {
+    // console.log(data);
+    Model.find({ instansi: data.guid }).then((data) => {
       if (data) {
         if (data.length == 0) {
           reject(Response.errorResult());
         } else {
           resolve(
             Object.assign(Response.successResponse("Successfully Get Data"), {
-              data: [data],
+              data: data,
             })
           );
         }
@@ -60,14 +61,14 @@ exports.getbyguid = (data) =>
   });
 
 exports.getaplication = async (req, res) => {
-  const { page, limit } = req.body;
+  const { page, limit,instansi } = req.body;
   try {
-    const aplication = await Model.find()
+    const aplication = await Model.find({instansi:instansi})
       .sort({ create_at: -1 })
       .limit(limit * 1)
       .skip((page - 1) * limit)
       .exec();
-    const count = await Model.countDocuments();
+    const count = await Model.countDocuments({instansi:instansi});
     res.json(
       Object.assign(Response.successResponse("Successfully Get Data"), {
         totalPages: Math.ceil(count / limit),

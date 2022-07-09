@@ -11,6 +11,6 @@ app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('static'))
-app.use(express.static(process.env.PATH));
+app.use(express.static(process.env.PATH_DEVELOPMENT));
 app.use(routes)
 module.exports = app;

@@ -22,6 +22,7 @@ router.post("/getbyguid", verifyToken, (req, res, next) => {
     .catch((err) => res.json(err));
 });
 router.post("/get", verifyToken, userController.getuser);
+router.post("/instansi",userController.getuserinstansi);
 router.delete("/delete/:guid", verifyToken, userController.delete);
 router.put("/update/:guid", verifyToken, userController.update);
 

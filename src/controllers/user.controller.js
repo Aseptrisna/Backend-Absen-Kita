@@ -33,8 +33,8 @@ exports.signup = (data) =>
               );
               Services.sendConfirmationEmail(token,data.email);
             })
-            .catch(() => {
-              reject(Response.errorResponse("Account Registration Failed"));
+            .catch((err) => {
+              reject(Response.errorResponse("Account Registration Failed"+err));
             });
         });
       }
@@ -42,14 +42,14 @@ exports.signup = (data) =>
   });
 
 exports.getuser = async (req, res, next) => {
-  const { page, limit } = req.body;
+  const { page, limit,instansi } = req.body;
   try {
-    const user = await UserModel.find()
+    const user = await UserModel.find({instansi: instansi})
       .sort({ create_at: -1 })
       .limit(limit * 1)
       .skip((page - 1) * limit)
       .exec();
-    const count = await UserModel.countDocuments();
+    const count = await UserModel.countDocuments({instansi: instansi});
     res.json(
       Object.assign(Response.successResponse("Successfully Get Data"), {
         totalPages: Math.ceil(count / limit),
@@ -139,3 +139,24 @@ exports.login = (data) =>
       }
     });
   });
+
+  exports.getuserinstansi = async (req, res, next) => {
+    const { page, limit } = req.body;
+    try {
+      const user = await UserModel.find({role:"instansi"})
+        .sort({ create_at: -1 })
+        .limit(limit * 1)
+        .skip((page - 1) * limit)
+        .exec();
+      const count = await UserModel.countDocuments();
+      res.json(
+        Object.assign(Response.successResponse("Successfully Get Data"), {
+          totalPages: Math.ceil(count / limit),
+          currentPage: page,
+          user,
+        })
+      );
+    } catch (err) {
+      res.json(Response.errorResult());
+    }
+  };
