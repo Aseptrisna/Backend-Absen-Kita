@@ -9,4 +9,6 @@ router.post("/add", (req, res, next) => {
     .catch((err) => res.json(err));
 });
 router.post("/getbyuser",Controller.getdetailabsen)
+router.post("/get",verifyToken,Controller.getabsen)
+router.post("/getdetail",verifyToken,Controller.getabsendetail)
 module.exports = router;
