@@ -28,7 +28,7 @@ exports.add = (data) =>
           data.tanggal = tanggal;
           data.absen = exist.guid;
           Model.findOneAndUpdate(
-            { user: data.user, bulan: month,tahun: tahun },
+            { user: data.user, bulan: month, tahun: tahun },
             { jumlah: exist.jumlah + 1 }
           )
             .then((success) => {
