@@ -16,14 +16,14 @@ exports.add = (data) =>
     data.client_secret =
       data.name + "-" + uuid.v4() + "-" + moment().format("YYYY");
     data.client_id = data.type + "-" + uuid.v4() + "-" + data.name;
-    Model.findOne({ name: data.name }).then((exist) => {
-      if (exist) {
-        reject(Response.errorResponse(" Name Already Used"));
-      } else {
-        Model.findOne({ package_name: data.package_name }).then((ready) => {
-          if (ready) {
-            reject(Response.errorResponse("Package Name Already Used"));
-          } else {
+    // Model.findOne({ name: data.name }).then((exist) => {
+    //   if (exist) {
+    //     reject(Response.errorResponse(" Name Already Used"));
+    //   } else {
+        // Model.findOne({ package_name: data.package_name }).then((ready) => {
+        //   if (ready) {
+        //     reject(Response.errorResponse("Package Name Already Used"));
+        //   } else {
             Model.create(data)
               .then(() =>
                 resolve(
@@ -35,10 +35,10 @@ exports.add = (data) =>
               .catch((e) =>
                 reject(Response.errorResponse("Failed to Add Application Data"))
               );
-          }
-        });
-      }
-    });
+          // }
+        // });
+    //   }
+    // });
   });
 exports.getbyguid = (data) =>
   new Promise((resolve, reject) => {

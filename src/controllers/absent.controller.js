@@ -3,10 +3,15 @@ const ModelDetail = require("../models/detailabsent.model");
 const uuid = require("uuid");
 const Response = require("../const/response");
 const moment = require("moment");
-const bulan = moment().format("MM");
-const tahun = moment().format("YYYY");
-const tanggal = moment().format("DD-MM-YYYY");
-const jam = moment().format("hh:mm:ss");
+const date = new Date();
+const bulan = date.getMonth();
+const tahun = date.getFullYear();
+const tanggal = date.getDate()+"-"+date.getMonth()+"-"+date.getFullYear();
+const jam = date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
+// const bulan = moment().format("MM");
+// const tahun = moment().format("YYYY");
+// const tanggal = moment().format("DD-MM-YYYY");
+// const jam = moment().format("hh:mm:ss");
 
 exports.add = (data) =>
   new Promise((resolve, reject) => {
@@ -97,6 +102,7 @@ exports.getdetailabsen = async (req, res) => {
     res.json(Response.errorResult());
   }
 };
+
 exports.getabsen = async (req, res) => {
   const { page, limit, guid, bulan, unit, instansi, tahun } = req.body;
   if (bulan == "" && unit == "" && tahun == "") {
@@ -242,6 +248,7 @@ exports.getabsen = async (req, res) => {
     }
   }
 };
+
 exports.getabsendetail = async (req, res) => {
   const { page, limit, guid, bulan, unit, instansi, tahun } = req.body;
   if (bulan == "" && unit == "" && tahun == "") {

@@ -11,7 +11,6 @@ new Date().getDate()+"-"+new Date().getMonth()+"-"+new Date().getFullYear()+"-"
 let storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, path);
-    // console.log(__dirname);
   },
   filename: (req, file, cb) => {
     cb(null,timestamp+uuid.v4()+".png");

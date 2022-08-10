@@ -6,10 +6,9 @@ dotenv.config();
 var path = process.env.PATH_DEVELOPMENT;
 
 upload = async (req, res) => {
-  var date=new Date().getTime()
   try {
     await uploadFile(req, res);
-    // console.log(req.file)
+    // console.log("Upload Files"+req.file.filename)
     if (req.file == undefined) {
       return res.status(400).send({ status: "false", message: "gagal" });
     }
@@ -19,6 +18,7 @@ upload = async (req, res) => {
       filename: req.file.filename ,
     });
   } catch (err) {
+    console.log(err)
     if (err.code == "LIMIT_FILE_SIZE") {
       return res.status(500).send({
         status: "false",
@@ -66,8 +66,17 @@ const download = (req, res) => {
   });
 };
 
+async function uploadFiles(req, res){
+  console.log('Test')
+  console.log(req.body);
+  console.log(req.files);
+  res.json({ message: "Successfully uploaded files" });
+}
+
+
 module.exports = {
   upload,
   getListFiles,
   download,
+  uploadFiles
 };
