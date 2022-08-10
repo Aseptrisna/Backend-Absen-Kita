@@ -4,10 +4,11 @@ const uuid = require("uuid");
 const Response = require("../const/response");
 const moment = require("moment");
 const date = new Date();
-const bulan = date.getMonth();
+const bulan = date.getMonth() + 1;
+const month = "0" + bulan;
 const tahun = date.getFullYear();
-const tanggal = date.getDate()+"-"+date.getMonth()+"-"+date.getFullYear();
-const jam = date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
+const tanggal = date.getDate() + "-" + "0" + bulan + "-" + date.getFullYear();
+const jam = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
 // const bulan = moment().format("MM");
 // const tahun = moment().format("YYYY");
 // const tanggal = moment().format("DD-MM-YYYY");
@@ -15,18 +16,19 @@ const jam = date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
 
 exports.add = (data) =>
   new Promise((resolve, reject) => {
-    Model.findOne({ user: data.user, bulan: bulan, tahun: tahun }).then(
+    Model.findOne({ user: data.user, bulan: month, tahun: tahun }).then(
       (exist) => {
+        console.log("Update Absent !");
         if (exist) {
           data.jumlah = exist.jumlah + 1;
-          data.bulan = bulan;
+          data.bulan = month;
           data.tahun = tahun;
           data.guid = uuid.v4();
           data.jam = jam;
           data.tanggal = tanggal;
           data.absen = exist.guid;
           Model.findOneAndUpdate(
-            { user: data.user },
+            { user: data.user, bulan: month,tahun: tahun },
             { jumlah: exist.jumlah + 1 }
           )
             .then((success) => {
@@ -50,8 +52,9 @@ exports.add = (data) =>
               reject(Response.errorResponse("Failed to Send Absent !"))
             );
         } else {
+          console.log("Save New Absent !");
           data.jumlah = 1;
-          data.bulan = bulan;
+          data.bulan = month;
           data.tahun = tahun;
           data.guid = uuid.v4();
           data.jam = jam;
