@@ -20,6 +20,23 @@ exports.add = (data) =>
       (exist) => {
         console.log("Update Absent !");
         if (exist) {
+          const jenis_absent = 0;
+          const dataupdate = {
+            jumlah: exist.jumlah + 1,
+            absen_pagi: exist.absen_pagi,
+            absen_siang: exist.absen_siang,
+            absen_sore: exist.absen_sore,
+            absen_lembur: exist.absen_lembur,
+          };
+          if (data.jenis == "Absen-Pagi") {
+            dataupdate.absen_pagi = exist.absen_pagi + 1;
+          } else if (data.jenis == "Absen-Siang") {
+            dataupdate.absen_siang = exist.absen_siang + 1;
+          } else if (data.jenis == "Absen-Sore") {
+            dataupdate.absen_sore = exist.absen_sore + 1;
+          } else if (data.jenis == "Absen-Lembur") {
+            dataupdate.absen_lembur = exist.absen_lembur + 1;
+          }
           data.jumlah = exist.jumlah + 1;
           data.bulan = month;
           data.tahun = tahun;
@@ -27,9 +44,10 @@ exports.add = (data) =>
           data.jam = jam;
           data.tanggal = tanggal;
           data.absen = exist.guid;
+          console.log(dataupdate);
           Model.findOneAndUpdate(
             { user: data.user, bulan: month, tahun: tahun },
-            { jumlah: exist.jumlah + 1 }
+            dataupdate
           )
             .then((success) => {
               if (success) {
@@ -49,11 +67,24 @@ exports.add = (data) =>
               }
             })
             .catch((e) =>
-              reject(Response.errorResponse("Failed to Send Absent !"))
+              reject(Response.errorResponse("Failed to Send Absent !" + e))
             );
         } else {
           console.log("Save New Absent !");
           data.jumlah = 1;
+          data.absen_pagi = 0;
+          data.absen_siang = 0;
+          data.absen_sore = 0;
+          data.absen_lembur = 0;
+          if (data.jenis == "Absen-Pagi") {
+            data.absen_pagi = 1;
+          } else if (data.jenis == "Absen-Siang") {
+            data.absen_siang =  1;
+          } else if (data.jenis == "Absen-Sore") {
+            data.absen_sore = 1;
+          } else if (data.jenis == "Absen-Lembur") {
+            data.absen_lembur = 1;
+          }
           data.bulan = month;
           data.tahun = tahun;
           data.guid = uuid.v4();
@@ -79,7 +110,7 @@ exports.add = (data) =>
               }
             })
             .catch((e) =>
-              reject(Response.errorResponse("Failed to Send Absent !"))
+              reject(Response.errorResponse("Failed to Send Absent !" + e))
             );
         }
       }
