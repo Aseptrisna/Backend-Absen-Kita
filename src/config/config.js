@@ -1,8 +1,8 @@
 const fs = require(`fs`);
 const credentials = {
-  pfx:fs.readFileSync(process.env.pfx),
-  passphrase: process.env.passphrase,
-  ca: fs.readFileSync(process.env.ca)
+  // pfx:fs.readFileSync(process.env.pfx),
+  // passphrase: process.env.passphrase,
+  // ca: fs.readFileSync(process.env.ca)
 };
 module.exports = {
   secret: process.env.SECRET,
